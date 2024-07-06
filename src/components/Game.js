@@ -17,13 +17,13 @@ function Game() {
             <div className="game">
                 <h1>三目並べ</h1>
                 <div>
-                    <button onClick={() => startGame(true, level)}>プレイヤー先行</button>
-                    <button onClick={() => startGame(false, level)}>コンピューター先行</button>
+                    <button className="button buttonPrimary" onClick={() => startGame(true, level)}>プレイヤー先行</button>
+                    <button className="button buttonSecondary" onClick={() => startGame(false, level)}>コンピューター先行</button>
                 </div>
                 <div>
                     <label>
                         レベル:
-                        <select value={level} onChange={(e) => setLevel(e.target.value)}>
+                        <select className="select" value={level} onChange={(e) => setLevel(e.target.value)}>
                             <option value="low">低</option>
                             <option value="medium">中</option>
                             <option value="high">高</option>

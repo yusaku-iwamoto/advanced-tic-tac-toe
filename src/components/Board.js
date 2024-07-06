@@ -218,7 +218,7 @@ function Board({ isPlayerFirst, level }) {
                 {renderSquare(7)}
                 {renderSquare(8)}
             </div>
-            {(winner || isDraw) && <button onClick={resetGame}>ゲームを再開</button>}
+            {(winner || isDraw) && <button className="button buttonPrimary" onClick={resetGame}>ゲームを再開</button>}
             {isComputerThinking && <div>コンピューターが考え中...</div>}
         </div>
     );
