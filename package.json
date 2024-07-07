@@ -1,5 +1,5 @@
 {
-  "name": "my-mobile-app",
+  "name": "advanced-tic-tac-toe",
   "version": "0.1.0",
   "private": true,
   "build": "CI=false react-scripts build",
