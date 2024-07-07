@@ -2,7 +2,7 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #4b6fa2 100%);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -90,7 +90,7 @@ body {
 }
 
 .button-primary {
-  background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+  background: linear-gradient(135deg, #6e8efb, #4abbf7);
   color: white;
 }
 
