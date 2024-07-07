@@ -140,4 +140,69 @@ select {
   outline: none;
 }
 
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.board-container {
+  margin-bottom: 20px;
+}
+
+.history-container {
+  width: 100%;
+  max-width: 300px;
+  color: #ffffff;
+}
+
+.history-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.history-item.win {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.history-item.loss {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.history-item.draw {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.total-record {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  .game-container {
+      flex-direction: row;
+      justify-content: center;
+  }
+
+  .board-container {
+      margin-right: 20px;
+      margin-bottom: 0;
+  }
+}
+
+.thinking {
+  margin-top: 10px;
+  text-align: center;
+  font-style: italic;
+  color: #ffffff;
+}

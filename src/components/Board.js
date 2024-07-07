@@ -2,11 +2,15 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Square from './Square';
 
 const MAX_DEPTH = 6;
+const MAX_HISTORY = 20;
 
 function Board({ isPlayerFirst, level, onGameEnd }) {
     const [squares, setSquares] = useState(Array(9).fill(null));
     const [isXNext, setIsXNext] = useState(isPlayerFirst);
     const [isComputerThinking, setIsComputerThinking] = useState(false);
+    const [gameHistory, setGameHistory] = useState([]);
+    const [totalWins, setTotalWins] = useState(0);
+    const [totalLosses, setTotalLosses] = useState(0);
 
     const getRandomMove = useCallback((board) => {
         const availableMoves = board.map((square, index) => square === null ? index : null).filter(index => index !== null);
@@ -185,40 +189,92 @@ function Board({ isPlayerFirst, level, onGameEnd }) {
         return <Square value={squares[i]} onClick={() => handleClick(i)} disabled={isComputerThinking} />;
     };
 
+    useEffect(() => {
+        const storedHistory = JSON.parse(localStorage.getItem('gameHistory')) || [];
+        const storedWins = parseInt(localStorage.getItem('totalWins')) || 0;
+        const storedLosses = parseInt(localStorage.getItem('totalLosses')) || 0;
+        setGameHistory(storedHistory);
+        setTotalWins(storedWins);
+        setTotalLosses(storedLosses);
+    }, []);
+
+    const updateGameHistory = useCallback((result) => {
+        setGameHistory(prevHistory => {
+            const newHistory = [result, ...prevHistory].slice(0, MAX_HISTORY);
+            localStorage.setItem('gameHistory', JSON.stringify(newHistory));
+            return newHistory;
+        });
+
+        if (result === 'Win') {
+            setTotalWins(prev => {
+                const newWins = prev + 1;
+                localStorage.setItem('totalWins', newWins);
+                return newWins;
+            });
+        } else if (result === 'Loss') {
+            setTotalLosses(prev => {
+                const newLosses = prev + 1;
+                localStorage.setItem('totalLosses', newLosses);
+                return newLosses;
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        const winner = calculateWinner(squares);
+        if (winner || isBoardFull(squares)) {
+            let result;
+            if (winner === 'X') {
+                result = 'Win';
+            } else if (winner === 'O') {
+                result = 'Loss';
+            } else {
+                result = 'Draw';
+            }
+            updateGameHistory(result);
+            // ゲーム終了時に自動的に先行・後攻画面に戻らないようにする
+            // onGameEnd();
+        }
+    }, [squares, calculateWinner, isBoardFull, updateGameHistory]);
+
     const winner = calculateWinner(squares);
     const isDraw = !winner && isBoardFull(squares);
     const status = winner ? '勝者: ' + winner : isDraw ? '引き分け' : '次のプレイヤー: ' + (isXNext ? 'X' : 'O');
-
     const resetGame = () => {
         setSquares(Array(9).fill(null));
         setIsXNext(isPlayerFirst);
     };
 
     return (
-        <div>
-            <div className="status">{status}</div>
-            <div className="board-row">
-                {renderSquare(0)}
-                {renderSquare(1)}
-                {renderSquare(2)}
+        <div className="game-container">
+            <div className="board-container">
+                <div className="status">{status}</div>
+                {[0, 1, 2].map((row) => (
+                    <div key={row} className="board-row">
+                        {[0, 1, 2].map((col) => renderSquare(row * 3 + col))}
+                    </div>
+                ))}
+                {isComputerThinking && <div className="thinking">コンピューターが考え中...</div>}
+                {(winner || isDraw) && (
+                    <div>
+                        <button className="button buttonPrimary" onClick={resetGame}>ゲームを再開</button>
+                        <button className="button buttonSecondary" onClick={onGameEnd}>トップページに戻る</button>
+                    </div>
+                )}
             </div>
-            <div className="board-row">
-                {renderSquare(3)}
-                {renderSquare(4)}
-                {renderSquare(5)}
-            </div>
-            <div className="board-row">
-                {renderSquare(6)}
-                {renderSquare(7)}
-                {renderSquare(8)}
-            </div>
-            {(winner || isDraw) && (
-                <div>
-                    <button className="button buttonPrimary" onClick={resetGame}>ゲームを再開</button>
-                    <button className="button buttonSecondary" onClick={onGameEnd}>トップページに戻る</button>
+            <div className="history-container">
+                <h3>対戦履歴</h3>
+                <ul className="history-list">
+                    {gameHistory.map((result, index) => (
+                        <li key={index} className={`history-item ${result.toLowerCase()}`}>
+                            {result}
+                        </li>
+                    ))}
+                </ul>
+                <div className="total-record">
+                    <p>総合成績: {totalWins}勝 {totalLosses}敗</p>
                 </div>
-            )}
-            {isComputerThinking && <div>コンピューターが考え中...</div>}
+            </div>
         </div>
     );
 }
