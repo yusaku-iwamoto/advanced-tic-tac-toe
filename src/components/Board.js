@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Square from './Square';
-import { Link } from 'react-router-dom';
 
 const MAX_DEPTH = 6;
 
