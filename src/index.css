@@ -9,6 +9,10 @@ body {
   align-items: center;
 }
 
+h1 {
+  color: #ffffff;
+}
+
 .game {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -89,12 +93,12 @@ body {
   transform: translateY(1px);
 }
 
-.button-primary {
-  background: linear-gradient(135deg, #6e8efb, #4abbf7);
+.buttonPrimary {
+  background: linear-gradient(135deg, #0f44f3, #17a8f6);
   color: white;
 }
 
-.button-secondary {
+.buttonSecondary {
   background: white;
   color: #4a6cf7;
   border: 2px solid #4a6cf7;
@@ -135,3 +139,5 @@ select {
   cursor: pointer;
   outline: none;
 }
+
+

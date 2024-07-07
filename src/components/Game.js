@@ -12,6 +12,10 @@ function Game() {
         setGameStarted(true);
     };
 
+    const resetGame = () => {
+        setGameStarted(false);
+    };
+
     if (!gameStarted) {
         return (
             <div className="game">
@@ -37,7 +41,7 @@ function Game() {
     return (
         <div className="game">
             <div className="game-board">
-                <Board isPlayerFirst={isPlayerFirst} level={level} />
+                <Board isPlayerFirst={isPlayerFirst} level={level} onGameEnd={resetGame} />
             </div>
         </div>
     );

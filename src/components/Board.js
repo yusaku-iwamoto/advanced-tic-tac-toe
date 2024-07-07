@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Square from './Square';
+import { Link } from 'react-router-dom';
 
 const MAX_DEPTH = 6;
 
-function Board({ isPlayerFirst, level }) {
+function Board({ isPlayerFirst, level, onGameEnd }) {
     const [squares, setSquares] = useState(Array(9).fill(null));
     const [isXNext, setIsXNext] = useState(isPlayerFirst);
     const [isComputerThinking, setIsComputerThinking] = useState(false);
@@ -212,7 +213,12 @@ function Board({ isPlayerFirst, level }) {
                 {renderSquare(7)}
                 {renderSquare(8)}
             </div>
-            {(winner || isDraw) && <button className="button buttonPrimary" onClick={resetGame}>ゲームを再開</button>}
+            {(winner || isDraw) && (
+                <div>
+                    <button className="button buttonPrimary" onClick={resetGame}>ゲームを再開</button>
+                    <button className="button buttonSecondary" onClick={onGameEnd}>トップページに戻る</button>
+                </div>
+            )}
             {isComputerThinking && <div>コンピューターが考え中...</div>}
         </div>
     );
